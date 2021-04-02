@@ -65,6 +65,47 @@ function enterWord() {
     updatePromptTypedWords();
 }
 
+function createLogEntry(entryType, WPM, accuracy, characters, time, reactionWPM = 0) {
+    let adjective;
+    let punctuation;
+    if (entryType == "attack") {
+        if (accuracy >= 100) {
+            adjective = "Perfect";
+            punctuation = "!!";
+        } else if (accuracy >= 98) {
+            adjective = "Great";
+            punctuation = "!";
+        } else if (accuracy >= 96) {
+            adjective = "Good";
+            punctuation = ".";
+        } else {
+            adjective = "OK";
+            punctuation = ".";
+        }
+    } else if (entryType == "reaction") {
+        if (WPM > reactionWPM && accuracy >= 100) {
+            adjective = "Perfect";
+            punctuation = "!!";
+        } else if (WPM > reactionWPM) {
+            adjective = "Good";
+            punctuation = ".";
+        } else {
+            adjective = "OK";
+            punctuation = ".";
+        }
+    }
+    
+
+    let html = `<div class="entry">
+                <p>${adjective} ${entryType}${punctuation}</p>
+                <p>WPM: ${WPM}</p>
+                <p>Accuracy: ${accuracy}%</p>
+                <p>Characters: ${characters}</p>
+                <p>Time Elapsed: ${time}s</p>
+    </div>`
+    document.getElementById("log").innerHTML = html;
+}
+
 function enterLetter() {
     if (started == false) {
         started = true;
@@ -108,12 +149,14 @@ function enterLetter() {
 
 function finishAttack() {
     WPMWords = prompt.length / 5
-    WPMTime = end() / 60;
+    endTime = end()
+    WPMTime = endTime / 60;
     WPM = Math.floor(WPMWords / WPMTime);
     console.log(WPM)
 
-    accuracy = ((prompt.length - numberIncorrect) / prompt.length).toFixed(2);
-    console.log(accuracy);
+    accuracy = (((prompt.length - numberIncorrect) / prompt.length) * 100).toFixed(2);
+    
+    createLogEntry("attack", WPM, accuracy, prompt.length, endTime);
     
     currentEnemy.health -= calculateDefenseDamage(Player.attack, currentEnemy.defense);
     currentEnemy.displayHP();
