@@ -19,11 +19,18 @@ body, html {
     margin: 0 auto;
 }
 #prompt-input-div {
-    border: 3px solid #4287f5;
-    background-color: #a3c4fa;
+    
     border-radius: 5px;
     width: 470px;
     padding: 10px 0;
+}
+.reaction {
+    border: 3px solid #4287f5;
+    background-color: #a3c4fa;
+}
+.attack {
+    border: 3px solid #f54442;
+    background-color: #faa4a3;
 }
 #prompt-div {
     background-color: white;
@@ -115,8 +122,8 @@ nav li:not(:last-child):after {
     }
 }
 .dead {
-    animation: fade .25s forwards,
-               lower .5s forwards;
+    animation: fade .2s forwards,
+               lower .3s forwards;
 
 }
 @keyframes fade {

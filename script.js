@@ -11,6 +11,7 @@ let incorrectFlag = false;
 let correctLetters = "";
 let untypedLetters = "";
 let started = false;
+let currentPromptType = "";
 
 const promptEl = document.getElementById("prompt-div")
 const inputEl = document.getElementById("type-input")
@@ -119,7 +120,7 @@ function enterLetter() {
         correctLetters = "";
         remainingWords = "";
         enterWord();
-        finishAttack();
+        finish();
     } else if (inputEl.value == words[wordsIndex] + " ") {
         document.getElementById("prompt-div").style = "";
         correctLetters = "";
@@ -147,6 +148,35 @@ function enterLetter() {
     input = inputEl.value;
 }
 
+function finish() {
+    if (currentPromptType == "attack") {
+        finishAttack();
+    } else if (currentPromptType == "reaction") {
+        finishReaction();
+    }
+    
+}
+function finishReaction() {
+    WPMWords = prompt.length / 5
+    endTime = end()
+    WPMTime = endTime / 60;
+    WPM = Math.floor(WPMWords / WPMTime);
+    console.log(WPM)
+
+    accuracy = (((prompt.length - numberIncorrect) / prompt.length) * 100).toFixed(2);
+    
+    createLogEntry("reaction", WPM, accuracy, prompt.length, endTime);
+    
+    if (WPM > currentEnemy.reactionWPM && accuracy >= 100) {
+        
+    } else if (WPM > currentEnemy.reactionWPM) {
+        Player.health -= currentEnemy.attack / (WPM * accuracy / currentEnemy.reactionWPM);
+    } else {
+        Player.health -= currentEnemy.attack / (WPM * accuracy / currentEnemy.reactionWPM) * 1.5;
+    }
+
+    Player.generateAttack();
+}
 function finishAttack() {
     WPMWords = prompt.length / 5
     endTime = end()
@@ -157,10 +187,9 @@ function finishAttack() {
     accuracy = (((prompt.length - numberIncorrect) / prompt.length) * 100).toFixed(2);
     
     createLogEntry("attack", WPM, accuracy, prompt.length, endTime);
-    
-    currentEnemy.health -= calculateDefenseDamage(Player.attack, currentEnemy.defense);
-    currentEnemy.displayHP();
-    Player.generateAttack();
+
+    let damage = (calculateDefenseDamage(Player.attack * calculateWPMDamageMultiplier(WPM, accuracy, currentEnemy.WPMFloor), currentEnemy.defense))
+    currentEnemy.changeHealth(damage);
 }
 
 inputEl.addEventListener("input", function(e) {
@@ -181,6 +210,35 @@ class Enemy {
     displayHP = function() {
         document.getElementById("enemy-hp").textContent = this.health + "/" + this.maxHealth + " HP";
     }
+
+    generateReaction = function() {
+        document.getElementById("prompt-input-div").className = "reaction";
+
+        document.getElementById("prompt-label").textContent = "Reaction";
+        currentPromptType = "reaction";
+        setPrompt(this.prompts[Math.floor(Math.random() * this.prompts.length)]);
+    }
+    changeHealth = function(amount) {
+        this.health -= amount;
+        if (this.health <= 0) {
+            this.health = 0;
+            killEnemy();
+        } else {
+            this.displayHP();
+            this.generateReaction();
+        }
+        
+    }
+}
+
+function killEnemy() {
+    document.getElementById("enemy-div").className = "dead";
+    setTimeout(function() {
+        document.getElementById("enemy-div").className = "";
+    }, 350)
+    let enemy = new Enemy("Slime", 150, 10, 80, 30, pangramPrompts)
+    setEnemy(enemy);
+    Player.generateAttack();
 }
 
 pangramPrompts = [
@@ -306,10 +364,12 @@ var quotes = [
 var Player = {
     health: 100,
     defense: 10,
-    attack: 10,
+    attack: 40,
     prompts: quotes,
 
     generateAttack: function() {
+        document.getElementById("prompt-label").textContent = "Attack";
+        document.getElementById("prompt-input-div").className = "attack";
         let firstPrompt = this.prompts[Math.floor(Math.random() * this.prompts.length)];
         let secondPrompt = this.prompts[Math.floor(Math.random() * this.prompts.length)];
         if (this.prompts.length != 1) {
@@ -317,12 +377,12 @@ var Player = {
                 secondPrompt = this.prompts[Math.floor(Math.random() * this.prompts.length)];
             }
         }
-        
+        currentPromptType = "attack";
         setPrompt(firstPrompt + " " + secondPrompt);
     }
 }
 
-var slime = new Enemy("Slime", 100, 10, 15, pangramPrompts)
+var slime = new Enemy("Slime", 150, 10, 80, 30, pangramPrompts)
 let currentEnemy;
 function setEnemy(enemy) {
     currentEnemy = enemy;
