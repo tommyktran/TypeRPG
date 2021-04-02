@@ -170,9 +170,9 @@ function finishReaction() {
     if (WPM > currentEnemy.reactionWPM && accuracy >= 100) {
         
     } else if (WPM > currentEnemy.reactionWPM) {
-        Player.changeHealth(currentEnemy.attack / (WPM * accuracy / currentEnemy.reactionWPM));
+        Player.changeHealth(Math.floor(currentEnemy.attack / (WPM * accuracy / currentEnemy.reactionWPM)));
     } else {
-        Player.changeHealth(currentEnemy.attack / (WPM * accuracy / currentEnemy.reactionWPM) * 1.5);
+        Player.changeHealth(Math.floor(currentEnemy.attack / (WPM * accuracy / currentEnemy.reactionWPM) * 1.5));
     }
 
 }
