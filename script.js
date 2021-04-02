@@ -172,11 +172,11 @@ function finishReaction() {
     createLogEntry("reaction", WPM, accuracy, prompt.length, endTime);
     
     if (WPM > currentEnemy.reactionWPM && accuracy >= 100) {
-        
+        Player.changeHealth(0);
     } else if (WPM > currentEnemy.reactionWPM) {
-        Player.changeHealth(Math.floor(currentEnemy.attack / (WPM * accuracy / currentEnemy.reactionWPM)));
+        Player.changeHealth(Math.floor(currentEnemy.attack / (WPM * accuracy / currentEnemy.WPMFloor * 100)));
     } else {
-        Player.changeHealth(Math.floor(currentEnemy.attack / (WPM * accuracy / currentEnemy.reactionWPM) * 1.5));
+        Player.changeHealth(Math.floor(currentEnemy.attack / (WPM * accuracy / currentEnemy.WPMFloor) * 150));
     }
 
 }
@@ -389,6 +389,8 @@ var Player = {
 
     changeHealth: function(amount) {
         this.health -= amount;
+        console.log(this.health)
+
         if (this.health <= 0) {
             this.health = 0;
             gameOver();
