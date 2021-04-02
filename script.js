@@ -12,6 +12,7 @@ let correctLetters = "";
 let untypedLetters = "";
 let started = false;
 let currentPromptType = "";
+let slimesKilled = 0;
 
 const promptEl = document.getElementById("prompt-div")
 const inputEl = document.getElementById("type-input")
@@ -19,7 +20,7 @@ const inputEl = document.getElementById("type-input")
 var startTime, endTime;
 
 document.getElementById("mobile-warning").addEventListener('click', function(e) {
-    e.target.style="display:none;";
+    document.getElementById("mobile-warning").style="display:none;";
 })
 
 function start() {
@@ -94,6 +95,9 @@ function createLogEntry(entryType, WPM, accuracy, characters, time, reactionWPM 
             adjective = "OK";
             punctuation = ".";
         }
+    } else if (entryType == "--") {
+        adjective = "-";
+        punctuation = "-";
     }
     
 
@@ -235,7 +239,9 @@ function killEnemy() {
     setTimeout(function() {
         document.getElementById("enemy-div").className = "";
     }, 350)
-    let enemy = new Enemy("Slime", 150, 10, 80, 30, pangramPrompts)
+    slimesKilled++;
+    Player.displaySlimesKilled();
+    let enemy = new Enemy("Slime", 150, 10, 80, 30, pangramPrompts);
     setEnemy(enemy);
     Player.generateAttack();
 }
@@ -396,6 +402,10 @@ var Player = {
         document.getElementById("player-currenthp").textContent = this.health;
         document.getElementById("player-maxhp").textContent = this.maxHealth;
 
+    },
+
+    displaySlimesKilled: function() {
+        document.getElementById("slimes-killed").textContent = slimesKilled;
     }
 }
 
@@ -441,5 +451,7 @@ function calculateWPMDamageMultiplier(WPM, accuracy, WPMFloor) {
 }
 
 Player.displayHP();
+Player.displaySlimesKilled();
 Player.generateAttack();
 setEnemy(slime);
+createLogEntry("--", "-", "-", "-", "-");
