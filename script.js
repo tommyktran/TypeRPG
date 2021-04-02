@@ -170,12 +170,11 @@ function finishReaction() {
     if (WPM > currentEnemy.reactionWPM && accuracy >= 100) {
         
     } else if (WPM > currentEnemy.reactionWPM) {
-        Player.health -= currentEnemy.attack / (WPM * accuracy / currentEnemy.reactionWPM);
+        Player.changeHealth(currentEnemy.attack / (WPM * accuracy / currentEnemy.reactionWPM));
     } else {
-        Player.health -= currentEnemy.attack / (WPM * accuracy / currentEnemy.reactionWPM) * 1.5;
+        Player.changeHealth(currentEnemy.attack / (WPM * accuracy / currentEnemy.reactionWPM) * 1.5);
     }
 
-    Player.generateAttack();
 }
 function finishAttack() {
     WPMWords = prompt.length / 5
@@ -363,6 +362,7 @@ var quotes = [
 
 var Player = {
     health: 100,
+    maxHealth: 100,
     defense: 10,
     attack: 40,
     prompts: quotes,
@@ -379,7 +379,34 @@ var Player = {
         }
         currentPromptType = "attack";
         setPrompt(firstPrompt + " " + secondPrompt);
+    },
+
+    changeHealth: function(amount) {
+        this.health -= amount;
+        if (this.health <= 0) {
+            this.health = 0;
+            gameOver();
+        } else {
+            this.generateAttack();
+        }
+        this.displayHP();
+    },
+
+    displayHP: function() {
+        document.getElementById("player-currenthp").textContent = this.health;
+        document.getElementById("player-maxhp").textContent = this.maxHealth;
+
     }
+}
+
+function gameOver() {
+    setPrompt(" ");
+    cursorIndex = -1;
+    wordsIndex = -1;
+    document.getElementById("prompt-input-div").className = "gameOver";
+    document.getElementById("prompt-label").textContent = "Game Over";
+    
+    document.getElementById("prompt-div").innerHTML = '<span class="typed">Game over! Refresh the page to start over</span>'
 }
 
 var slime = new Enemy("Slime", 150, 10, 80, 30, pangramPrompts)
@@ -413,5 +440,6 @@ function calculateWPMDamageMultiplier(WPM, accuracy, WPMFloor) {
     }
 }
 
+Player.displayHP();
 Player.generateAttack();
 setEnemy(slime);
