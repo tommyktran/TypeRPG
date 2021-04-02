@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="style.css">
+    <title></title>
+</head>
+<body>
+    <header>
+        <h1 id="site-title">Type RPG</h1>
+        <nav>
+            <li><a href="#">Game</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Data</a></li>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <p id="enemy-line">You are facing off against the:</p>
+        <div id="enemy-div">
+            <img id="enemy-img">
+            <p id="enemy-name"></p>
+            <p id="enemy-hp"></p>
+        </div>
+        
+        <div id="prompt-input-div" class="">
+            <p id="prompt-label"></p>
+            <div id="prompt-div">
+                <span class="typed"></span> 
+
+                <span class="currentWord"></span> 
+            </div>
+            <input id="type-input"></input>
+        </div>
+    </div>
+    <div id="mobile-warning">I noticed that you're on mobile. This is a typing game, and with any typing game, it's not really meant to be played on mobile. You've been warned!<br><br><br><span style="text-align:center;display:block;">(tap this to dismiss)</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

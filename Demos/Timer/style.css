@@ -1,0 +1,50 @@
+.timer-container {
+    position: relative;
+    top: 20px;
+    left: 20px;
+}
+
+.timer-container, .timer-total, .timer-current {
+    width: 500px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    border-radius: 10px;
+}
+
+.timer-total, .timer-current, .timer-seconds {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.timer-total {
+    background-color: #666;
+    filter: opacity(60%);
+    z-index: -10;
+}
+.timer-current {
+    width: 504px;
+    left: -2px;
+    background-color: rgb(119, 255, 115);
+    z-index: 5;
+}
+.timer-seconds {
+    font-family: arial;
+    color: white;
+    margin: 0 0 0 5px;
+    padding: 0;
+    z-index: 10;
+    left: auto;
+    right: auto;
+}
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+/* Media queries */
+@media (min-width: 800px) {
+    
+}

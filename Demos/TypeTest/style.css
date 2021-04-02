@@ -1,0 +1,49 @@
+.typing-prompt {
+    width: 500px;
+    font-family: Arial;
+    font-size: 20px;
+    color: #222;
+    padding: 5px;
+}
+
+/* Styling for the "prompt" text that is supposed to be transparent */
+.typing-prompt:after {
+    content: attr(prompt);
+    opacity: 40%;
+}
+
+.incorrect {
+    animation: wiggle .25s linear,
+               fadeRed .25s linear;
+}
+@keyframes wiggle {
+    0% {
+        transform: translate(2px, 0);
+    }
+    50% {
+        transform: translate(-2px, 0);
+    }
+    100% {
+        transform: translate(0);
+    }
+}
+@keyframes fadeRed {
+    0% {
+        background-color: rgb(255, 190, 190);
+    }
+    50% {
+        background-color: white;
+    }
+    100% {
+        background-color: rgb(255, 190, 190);
+    }
+}
+
+body {
+    padding: 30px;
+}
+
+/* Media queries */
+@media (min-width: 800px) {
+    
+}

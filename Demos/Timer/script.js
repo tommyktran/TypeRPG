@@ -1,0 +1,2 @@
+let timeLimit = 10;
+
