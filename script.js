@@ -165,7 +165,6 @@ function finishReaction() {
     endTime = end()
     WPMTime = endTime / 60;
     WPM = Math.floor(WPMWords / WPMTime);
-    console.log(WPM)
 
     accuracy = (((prompt.length - numberIncorrect) / prompt.length) * 100).toFixed(2);
     
@@ -185,7 +184,7 @@ function finishAttack() {
     endTime = end()
     WPMTime = endTime / 60;
     WPM = Math.floor(WPMWords / WPMTime);
-    console.log(WPM)
+    
 
     accuracy = (((prompt.length - numberIncorrect) / prompt.length) * 100).toFixed(2);
     
@@ -241,7 +240,7 @@ function killEnemy() {
     }, 350)
     slimesKilled++;
     Player.displaySlimesKilled();
-    let enemy = new Enemy("Slime", 150, 10, 80, 30, pangramPrompts);
+    let enemy = new Enemy("Slime", 150, 10, 80, 10, pangramPrompts);
     setEnemy(enemy);
     Player.generateAttack();
 }
@@ -389,7 +388,6 @@ var Player = {
 
     changeHealth: function(amount) {
         this.health -= amount;
-        console.log(this.health)
 
         if (this.health <= 0) {
             this.health = 0;
@@ -421,7 +419,7 @@ function gameOver() {
     document.getElementById("prompt-div").innerHTML = '<span class="typed">Game over! Refresh the page to start over</span>'
 }
 
-var slime = new Enemy("Slime", 150, 10, 80, 30, pangramPrompts)
+var slime = new Enemy("Slime", 150, 10, 80, 10, pangramPrompts)
 let currentEnemy;
 function setEnemy(enemy) {
     currentEnemy = enemy;
