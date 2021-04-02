@@ -135,6 +135,20 @@ nav li:not(:last-child):after {
         transform: translateY(10px);
     }
 }
+
+#log {
+    width: 470px;
+    margin-top: 15px;
+}
+.entry {
+    margin: 0 auto;
+    text-align: left;
+    width: 90%;
+}
+.entry p {
+    margin: 0;
+}
+
 #mobile-warning {
     display: none;
 }
