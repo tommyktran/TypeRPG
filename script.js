@@ -339,7 +339,7 @@ var quotes = [
     "It is not what you do for your children, but what you have taught them to do for themselves, that will make them successful human beings.",
     "If you want your children to turn out well, spend twice as much time with them, and half as much money.",
     "Build your own dreams, or someone else will hire you to build theirs.",
-    "The battles that count aren't the ones for gold medals. The struggles within yourself–the invisible battles inside all of us–that's where it's at.",
+    "The battles that count aren't the ones for gold medals. The struggles within yourself-the invisible battles inside all of us-that's where it's at.",
     "Education costs money. But then so does ignorance.",
     "I have learned over the years that when one's mind is made up, this diminishes fear.",
     "It does not matter how slowly you go as long as you do not stop.",
